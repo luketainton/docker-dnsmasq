@@ -11,9 +11,4 @@ RUN chmod +x /usr/local/bin/webproc
 FROM build as dnsmasq
 RUN apk --no-cache add dnsmasq
 COPY --from=webproc /usr/local/bin/webproc /usr/local/bin/webproc
-
-ADD clients.conf /etc/raddb/clients.conf
-ADD users /etc/raddb/users
-ADD radiusd.conf /etc/raddb/radiusd.conf
-RUN chmod -R o-w /etc/raddb/
 ENTRYPOINT ["webproc","--on-exit","restart","--config","/etc/dnsmasq.conf,/etc/hosts,/etc/resolv.conf","--","dnsmasq","-k","-l","--log-facility=-"]
