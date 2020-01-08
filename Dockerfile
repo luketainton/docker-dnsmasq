@@ -11,5 +11,5 @@ RUN chmod +x /usr/local/bin/webproc
 FROM build as dnsmasq
 RUN apk --no-cache add dnsmasq
 COPY --from=webproc /usr/local/bin/webproc /usr/local/bin/webproc
-ENTRYPOINT ["webproc","--on-exit","restart","-c","/etc/dnsmasq.conf,/etc/hosts,/etc/resolv.conf","--","dnsmasq","-k","--log-facility=-"]
+ENTRYPOINT ["webproc","--on-exit","restart","-c","/etc/dnsmasq.conf","/etc/hosts,/etc/resolv.conf","--","dnsmasq","-k","--log-facility=-"]
 EXPOSE 53/udp 8080
