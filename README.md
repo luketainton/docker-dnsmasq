@@ -1,2 +1,2 @@
-# docker-dnsmasq-web
-A very basic dnsmasq container
+# docker-dnsmasq
+A very basic dnsmasq container with web-based config file manager.

@@ -1,0 +1,6 @@
+127.0.0.1	localhost
+
+# Comment
+# IP    hostname1   hostname2
+
+10.1.1.1    vm1 testvm

@@ -1,0 +1,11 @@
+services:
+  app:
+    image: "ghcr.io/luketainton/docker-dnsmasq:latest"
+    restart: "unless-stopped"
+    volumes:
+      - ./config/dnsmasq.conf:/etc/dnsmasq.conf:rw
+      - ./config/hosts:/etc/hosts:rw
+      - ./config/resolv.conf:/etc/resolv.conf:rw
+    ports:
+      - "53:53/udp"
+      - "8080:8080/tcp"
