@@ -1,0 +1,22 @@
+name: CI
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  validate_pr_title:
+    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/conventional-commit.yml@main
+    with:
+      commit_message: ${{ gitea.event.pull_request.title }}
+
+  ci:
+    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/ci-docker.yml@main
+    with:
+      python-version: 3.13
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
