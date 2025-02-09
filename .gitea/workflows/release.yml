@@ -9,12 +9,7 @@ on:
 jobs:
   test:
     name: Test
-    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/ci-docker.yml@main
-    with:
-      python-version: 3.13
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    uses: https://git.tainton.uk/repos/docker-dnsmasq/.gitea/workflows/ci.yml@main
 
   create_release:
     name: Create Release
@@ -29,7 +24,7 @@ jobs:
     needs: create_release
     steps:
       - run: echo "Created release ${{ needs.create_release.outputs.release_name }}."
-  
+
   publish:
     name: Publish Docker Images
     runs-on: ubuntu-latest

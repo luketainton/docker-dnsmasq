@@ -8,15 +8,31 @@ on:
       - reopened
 
 jobs:
-  validate_pr_title:
-    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/conventional-commit.yml@main
-    with:
-      commit_message: ${{ gitea.event.pull_request.title }}
-
   ci:
-    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/ci-docker.yml@main
-    with:
-      python-version: 3.13
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          output-file: hadolint.out
+          format: sonarqube
+          no-fail: true
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4.2.1
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+
+      - name: Snyk Vulnerability Scan
+        uses: snyk/actions/python@master
+        continue-on-error: true # Sometimes vulns aren't immediately fixable
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: test --all-projects
