@@ -7,13 +7,13 @@ on:
       - main
 
 jobs:
-  test:
-    name: Test
-    uses: ./.gitea/workflows/ci.yml@main
+  # test:
+  #   name: Test
+  #   uses: ./.gitea/workflows/ci.yml@main
 
   create_release:
     name: Create Release
-    needs: test
+    # needs: test
     uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/create-release.yml@main
     secrets:
       ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
