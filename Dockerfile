@@ -1,4 +1,4 @@
-FROM alpine:3.21 AS build
+FROM alpine:3.22 AS build
 LABEL maintainer="Luke Tainton <luke@tainton.uk>"
 
 FROM build AS webproc
