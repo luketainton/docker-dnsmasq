@@ -16,18 +16,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: hadolint/hadolint-action@v3.1.0
+      - name: Run Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
           output-file: hadolint.out
           format: sonarqube
           no-fail: true
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5.2.0
-        env:
-          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+      # - name: SonarQube Scan
+      #   uses: SonarSource/sonarqube-scan-action@v5.2.0
+      #   env:
+      #     SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
+      #     SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+
+      # - name: Snyk SAST Scan
+      #   uses: snyk/actions/python@master
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     # command: snyk
+      #     args: snyk code test --all-projects --exclude=.archive
 
       - name: Snyk Vulnerability Scan
         uses: snyk/actions/python@master
